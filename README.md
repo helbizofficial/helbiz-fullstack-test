@@ -5,16 +5,16 @@ Overview
 ------
 We would like to see how you architect a simple application that does three things:
 
-1. pulls data from 2 API endpoints that retrieves cryptocurrency wallets and their balances (HBZ)
-2. reads from the [Ethereum](https://www.ethereum.org/) blockchain using [web3.js](https://github.com/ethereum/web3.js/), an open-source library
-3. manages an _internal_ balance system to transfer tokens between wallets
+1. pulls data from an API that related to cryptocurrency wallets
+2. manages an _internal_ balance system to transfer tokens between wallets
+3. reads from the [Ethereum](https://www.ethereum.org/) blockchain using [web3.js](https://github.com/ethereum/web3.js/), an open-source library
 
 Your code will be interacting with our testing environment, so don’t worry about breaking anything! The goal is for you to show us your coding style, best practices you follow, and demonstrate an understanding of APIs and your framework of choice.
 
 Instructions
 ------
 ### 1. Wallets API
-You are to use the first API to retrieve a list of addresses and ids, and only render the wallet addresses. You should also be able to filter them with a radio button and utilizing the `filter` API param. When you click on one of the wallets, display the information you retrieve with the second request.
+You are to use the first API to retrieve a list of addresses and ids, and only render the wallet addresses. You should also be able to filter them with a radio button and utilizing the `filter` API param. When you click on one of the wallets, display the information you retrieve with the second API.
 
 Make API requests to this URL, and make sure to set the authorization header!
 
@@ -75,8 +75,8 @@ Example `200` response:
 ### 2. Internal Transfers
 Provide a simple form that simulates a transfer between two wallets. For input, you'll need the `from` wallet address, `to` wallet address, and `amount` of HBZ to transfer. Persist these transfers using [mongoDB](https://www.mongodb.com/) and apply the transactions every time you pull data from the wallets API (again, consider an optimization strategy here).
 
-### 3. ETH Balance
-Finally - the API is only returning the HBZ balance for wallets. We would also like you to use the **web3.js** library to retrieve each wallet's ETH balance and display alongside the HBZ balance. Read the [API documentation](https://web3js.readthedocs.io/en/1.0/web3-eth.html#getbalance) to learn how to achieve this. All you need for this API is wallet address.
+### 3. Get ETH Balance Using web3.js
+Finally - our API is only returning the HBZ balance for wallets. We would also like you to use the **web3.js** library to retrieve each wallet's ETH balance and display alongside the HBZ balance. Read the [API documentation](https://web3js.readthedocs.io/en/1.0/web3-eth.html#getbalance) to learn how to achieve this. All you need for this API is the wallet address.
 
 Hint: To initialize the library, you need to [set a provider](https://web3js.readthedocs.io/en/1.0/web3.html#setprovider):
 1. use library [truffle-privatekey-provider](https://www.npmjs.com/package/truffle-privatekey-provider) as the provider
