@@ -14,9 +14,9 @@ Your code will be interacting with our testing environment, so don’t worry abo
 Instructions
 ------
 ### 1. Wallets API
-You are to use the first API to retrieve a list of addresses and ids, and only render the wallet addresses. You should also be able to filter them with a radio button and utilizing the `filter` API param. When you click on one of the wallets, display the information you retrieve with the second API.
+You are to use the API provided (2 endpoints) to retrieve a collection of wallets and render them for a user. For the first component, you only render the wallet addresses. Another component will allow you to filter the wallets with a radio button and utilizing the `filter` API param. When you click on one of the wallets, display the information you retrieve via the `/show` endpoint and render on another component.
 
-Make API requests to this URL, and make sure to set the authorization header!
+Make your API requests to this URL, and make sure to set the authorization header!
 
 **API base URL** : `http://hbz-listen-test.us-west-2.elasticbeanstalk.com`
 
