@@ -73,7 +73,7 @@ Example `200` response:
 ```
 
 ### 2. Internal Transfers
-Provide a simple form that simulates a transfer between two wallets. For input, you'll need the `from` wallet address, `to` wallet address, and `amount` of HBZ to transfer. Persist these transfers using [mongoDB](https://www.mongodb.com/) and apply the transactions every time you pull data from the wallets API (again, consider an optimization strategy here).
+Provide a simple form that simulates a transfer between two wallets. For input, you'll need the `from` wallet address, `to` wallet address, and `amount` of HBZ to transfer. Persist these transfers using [mongoDB](https://www.mongodb.com/) and apply the transactions every time you pull data from the wallets API (again, consider an optimization strategy here). Remember to update the balances shown to the user.
 
 ### 3. Get ETH Balance Using web3.js
 Finally - our API is only returning the HBZ balance for wallets. We would also like you to use the **web3.js** library to retrieve each wallet's ETH balance and display alongside the HBZ balance. Read the [API documentation](https://web3js.readthedocs.io/en/1.0/web3-eth.html#getbalance) to learn how to achieve this. All you need for this API is the wallet address.
