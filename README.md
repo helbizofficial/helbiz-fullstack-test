@@ -1,91 +1,70 @@
 ### [Helbiz](https://helbiz.com) - Full-stack technical test
-This test is part of our hiring process at Helbiz for full-stack Software Engineering positions. There are three stages to this test, but you shouldn’t spend more than 4-6 hours completing it. And don't worry if you can't complete everything!
+This test is part of our hiring process at Helbiz for the Full-Stack Software Engineer role. The goal is to understand your development skills, coding style, how creative you are, and time management. Because the role is full-stack, we're going to ask you to develop a full-stack solution
+
+There are three stages to this test, and you shouldn’t spend more than 4-6 hours completing it.
 
 Overview
 ------
-We would like to see how you architect a simple application that does three things:
+We would like to see how you architect an application that pulls data from an outside API, formats it for a [graphql](https://graphql.org/) API endpoint, and displays the data using using React.
 
-1. pulls data from an API that related to cryptocurrency wallets
-2. manages an _internal_ balance system to transfer tokens between wallets
-3. reads from the [Ethereum](https://www.ethereum.org/) blockchain using [web3.js](https://github.com/ethereum/web3.js/), an open-source library
-
-Your code will be interacting with our testing environment, so don’t worry about breaking anything! The goal is for you to show us your coding style, best practices you follow, and demonstrate an understanding of APIs and your framework of choice.
+1. pull data from our open GBFS API for `/free_bike_status`
+2. create an API using ([apollo-server-express](https://www.npmjs.com/package/apollo-server-express) or [apollo-server-lambda](https://www.npmjs.com/package/apollo-server-lambda)) that formats the data and exposes a query so we can query by `bike_id`
+3. create a single page app using React that renders the data from your graphql endpoint, and allows the user to query the API to get the latest status of a vehicle with `bike_id`
 
 Instructions
 ------
-### 1. Wallets API
-You are to use the first API to retrieve a list of addresses and ids, and only render the wallet addresses. You should also be able to filter them with a radio button and utilizing the `filter` API param. When you click on one of the wallets, display the information you retrieve with the second API.
+### 1. Query our GBFS API
+To get a list of vehicles and their current status, make a GET request to this endpoint:
 
-Make API requests to this URL, and make sure to set the authorization header!
+```
+https://api.helbiz.com/admin/reporting/arlington/gbfs/free_bike_status.json
+```
 
-**API base URL** : `http://hbz-listen-test.us-west-2.elasticbeanstalk.com`
-
-**Bearer token** : `HBZ90468f48ff6136f1`
-
-#### --- Endpoint 1: Get list of wallets
-
-Get all the wallet records, or only those assigned to a user, or only those with a positive HBZ balance
-
-**PATH** : `/api/wallets`
-
-**Method** : `GET`
-
-**Params** : `filter [all|claimed|deposited]`
-
-**Responses** : `400 BAD REQUEST`, `200 OK`
-
-Example `200` response:
+The response looks like:
 ```json
 {
-  "filter": "all",
-  "count": 1,
-  "wallets": [
-    {
-      "_id": "5c0f...",
-      "public_key": "0x7233..."
-    }
-  ]
+  "last_updated": 1603386427821,
+  "ttl": 0,
+  "data": {
+    "bikes": [
+      {
+        "bike_id": "T6S1",
+        "lat": 38.86484,
+        "lon": -77.077003,
+        "is_reserved": 0,
+        "is_disabled": 0,
+        "vehicle_type": "scooter"
+      },
+      {
+        "bike_id": "P6Z2",
+        "lat": 38.882187,
+        "lon": -77.111713,
+        "is_reserved": 0,
+        "is_disabled": 0,
+        "vehicle_type": "scooter"
+      },
+      ...
+    ]
+  }
 }
 ```
 
-#### --- Endpoint 2: Get wallet info
+### 2. Create a Graphql API
+We want you to make a graphql API ([apollo-server-express](https://www.npmjs.com/package/apollo-server-express) or [apollo-server-lambda](https://www.npmjs.com/package/apollo-server-lambda)) that exposes this data via a query - if no parameters are included, your graphql endpoint should simply return the list of vehicles. If the parameter `bike_id` is included, your endpoint should only return the data for that vehicle.
 
-Get the wallet record with the given `_id`
+**HINT**: read about graphql + apollo here: https://www.apollographql.com/docs/tutorial/introduction/
 
-**PATH** : `/api/wallets/show`
+**HINT**: you should organize the vehicle data under a `VehicleStatus` type, and your query returns an array of these
 
-**Method** : `GET`
+**BONUS**: add some simple auth to your endpoint via a `Bearer` token
 
-**Params** : `_id`
+### 3. Create a React component
+Create a single page app using React that renders the data from your graphql endpoint. It can be as simple as querying your graphql endpoint for all vehicle statuses on page load and rendering them using [Material UI Table component](https://material-ui.com/components/tables/).
 
-**Responses** : `400 BAD REQUEST`, `404 NOT FOUND`, `200 OK`
+In addition, create a search input allows the user to get most recent status of a vehicle with the given `bike_id`. This should query your API with the parameter for `bike_id` and render the updated vehicle status.
 
-Example `200` response:
-```json
-{
-  "public_key": "0x7233...",
-  "created_at": "2019-01-01T17:12:43.123Z",
-  "updated_at": "2019-01-01T17:53:59.158Z",
-  "balance_hbz": 1000,
-  "last_deposit_at": "2019-01-01T17:53:59.158Z",
-  "last_deposit_tx": "0x7233.."
-}
-```
-
-### 2. Internal Transfers
-Provide a simple form that simulates a transfer between two wallets. For input, you'll need the `from` wallet address, `to` wallet address, and `amount` of HBZ to transfer. Persist these transfers using [mongoDB](https://www.mongodb.com/) and apply the transactions every time you pull data from the wallets API (again, consider an optimization strategy here).
-
-### 3. Get ETH Balance Using web3.js
-Finally - our API is only returning the HBZ balance for wallets. We would also like you to use the **web3.js** library to retrieve each wallet's ETH balance and display alongside the HBZ balance. Read the [API documentation](https://web3js.readthedocs.io/en/1.0/web3-eth.html#getbalance) to learn how to achieve this. All you need for this API is the wallet address.
-
-Hint: To initialize the library, you need to [set a provider](https://web3js.readthedocs.io/en/1.0/web3.html#setprovider):
-1. use library [truffle-privatekey-provider](https://www.npmjs.com/package/truffle-privatekey-provider) as the provider
-2. [Infura](https://infura.io/) for the Ethereum client URL
-3. and set the private key (account has 1 ETH) to => `76F6EC7EACC0F19FCA5CCB1D689A60B229327BF0C038119EE2BDFA2293236AFD`
-
-Bonus points: Initialize the library with a websocket provider and update the webpage with every deposit for both ETH and HBZ.
 
 Get coding!
 ------
 
-To start, fork this repository and submit a pull request with your finished app. We'll review and schedule a call so you can go over it with us. Be prepared to explain your code and why you made some of the decisions you made.
+To start, fork this repository and submit a pull request with your finished app. We'll review and schedule a call so you can go over it with us. Be prepared to explain your code and any technical questions we may have.
