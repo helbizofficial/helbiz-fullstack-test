@@ -13,6 +13,7 @@ We would like to see how you architect an application that pulls data from an ou
 
 Instructions
 ------
+
 ### 1. Query our GBFS API
 To get a list of vehicles and their current status, make a GET request to this endpoint:
 
