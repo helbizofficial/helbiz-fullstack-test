@@ -1,7 +1,5 @@
 ### [Helbiz](https://helbiz.com) - Full-stack technical test
-This test is part of our hiring process at Helbiz for the Full-Stack Software Engineer role. The goal is to understand your development skills, coding style, how creative you are, and time management. Because the role is full-stack, we're going to ask you to develop a full-stack solution
-
-There are three stages to this test, and you shouldn’t spend more than 4-6 hours completing it.
+This test is part of our hiring process at Helbiz for the Full-Stack Software Engineer role. The goal is to understand your development skills, coding style, how creative you are, and time management. Because the role is full-stack, we're going to ask you to develop a full-stack solution, and you shouldn’t spend more than 4-6 hours completing it.
 
 Overview
 ------
